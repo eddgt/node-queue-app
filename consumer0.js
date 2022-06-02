@@ -30,7 +30,16 @@ async function connect(){
         channel.consume(queue, message =>{
             let employee = JSON.parse(message.content.toString());
             console.log(`Received employee.name: ${employee.name}`);
-            console.log(`Received employee:  ${employee} `);
+            console.log(employee);
+
+            // borrar mensajes que no sean youtube
+            if(employee.enterprise==enterprise  ){
+                channel.ack(message);
+                console.log("Deleted message from queue...\n");
+
+            }else{
+                console.log("That message is not for me");
+            }
         })
 
     } catch (error) {
