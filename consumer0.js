@@ -14,14 +14,7 @@ connect();
 
 async function connect(){
     const queue = "employees";
-
-    const msgs = [
-        {name: 'Hola Eddgt Queue con node.js Yt!',enterprise: 'Youtube'},
-        {name: 'Hola Eddgt Queue con node.js Fb!',enterprise: 'Facebook'},
-        {name: 'Hola Eddgt Queue con node.js Tw!',enterprise: 'Twitter'},
-        {name: 'Hola Eddgt Queue con node.js Ggl!',enterprise: 'Google'},
-        {name: 'Hola Eddgt Queue con node.js Aws!',enterprise: 'AWS'}
-    ];
+    
     try {
         const conn = await amqp.connect(rabbitSettings);
         console.log("Connection created!...");
@@ -31,11 +24,6 @@ async function connect(){
 
         const resolved = await channel.assertQueue(queue);
         console.log("Queue created!...");
-
-        for(let msg in msgs){
-            await channel.sendToQueue(queue, Buffer.from(JSON.stringify(msgs[msg]), ));
-            console.log("Message sent to queue " + queue);
-        }
 
     } catch (error) {
         console.error(`Error -> ${error}`);
