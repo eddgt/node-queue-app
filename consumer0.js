@@ -14,7 +14,7 @@ connect();
 
 async function connect(){
     const queue = "employees";
-    
+    const enterprise = "Youtube";
     try {
         const conn = await amqp.connect(rabbitSettings);
         console.log("Connection created!...");
@@ -24,6 +24,14 @@ async function connect(){
 
         const resolved = await channel.assertQueue(queue);
         console.log("Queue created!...");
+
+        // recibir mensajes
+        console.log("Waiting for messages from " + enterprise);
+        channel.console(queue, message =>{
+            let employee = JSON.parse(message.content.toString());
+            console.log("Received employee.name: " + employee.name);
+            console.log("Received employee: " + employee);
+        })
 
     } catch (error) {
         console.error(`Error -> ${error}`);
