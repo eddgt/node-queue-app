@@ -27,7 +27,7 @@ async function connect(){
 
         // recibir mensajes
         console.log("Waiting for messages from " + enterprise);
-        channel.console(queue, message =>{
+        channel.consume(queue, message =>{
             let employee = JSON.parse(message.content.toString());
             console.log("Received employee.name: " + employee.name);
             console.log("Received employee: " + employee);
