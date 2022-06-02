@@ -1,8 +1,8 @@
-const amqp = require('amqp');
+const amqp = require('amqplib');
 
 const rabbitSettings = {
     protocol: 'amqp',
-    hosname: 'localhost',
+    hosname: '172.17.0.1',
     port: 5672,
     username: 'TestEdd',
     password: 'TestEdd',
@@ -13,9 +13,16 @@ const rabbitSettings = {
 connect();
 
 async function connect(){
+    const queue = "employees";
     try {
         const conn = await amqp.connect(rabbitSettings);
         console.log("Connection created!...");
+
+        const channel = await conn.createChannel();
+        console.log("Channel created!...");
+
+        const resolved = await channel.assertQueue(queue);
+        console.log("Queue created!...");
 
     } catch (error) {
         console.error(`Error -> ${error}`);
